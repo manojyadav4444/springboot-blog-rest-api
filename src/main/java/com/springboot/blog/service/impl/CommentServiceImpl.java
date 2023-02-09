@@ -36,21 +36,15 @@ public class CommentServiceImpl implements CommentService {
 
         Comment comment = mapToEntity(commentDto);
 
-        System.out.println(commentDto + "\n" + comment);
-
         // retrieve post entity by id
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new ResourceNotFoundException("Post", "id", postId));
-
-        System.out.println(post);
 
         // set post to comment entity
         comment.setPost(post);
 
         // comment entity to DB
         Comment newComment =  commentRepository.save(comment);
-
-        System.out.println(postRepository.findById(postId));
 
         return mapToDTO(newComment);
     }
