@@ -115,10 +115,6 @@ public class PostServiceImpl implements PostService {
 //        postDto.setContent(post.getContent());
 //        postDto.setDescription(post.getDescription());
 
-        System.out.println(post);
-
-        System.out.println(postDto);
-
         return postDto;
     }
 
@@ -129,8 +125,6 @@ public class PostServiceImpl implements PostService {
 //        post.setTitle(postDto.getTitle());
 //        post.setContent(postDto.getContent());
 //        post.setDescription(postDto.getDescription());
-
-        System.out.println(post);
 
         return post;
     }
