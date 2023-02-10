@@ -1,11 +1,15 @@
 package com.springboot.blog.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,6 +22,18 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    private UserDetailsService userDetailsService;
+
+    @Autowired
+    public SecurityConfig(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
+    }
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
@@ -25,28 +41,29 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) ->
 //                        authorize.anyRequest().authenticated()
                         authorize.requestMatchers(HttpMethod.GET, "api/**").permitAll()
-//                                .anyRequest().authenticated()
+                                .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults());
         return httpSecurity.build();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails manoj = User.builder()
-                .username("manoj")
-                .password(passwordEncoder().encode("manoj"))
-                .roles("USER")
-                .build();
-
-        UserDetails admin = User.builder()
-                .username("admin")
-                .password(passwordEncoder().encode("admin"))
-                .roles("ADMIN")
-                .build();
-
-        return new InMemoryUserDetailsManager(manoj, admin);
-    }
+    //commented coz we using db auth now
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        UserDetails manoj = User.builder()
+//                .username("manoj")
+//                .password(passwordEncoder().encode("manoj"))
+//                .roles("USER")
+//                .build();
+//
+//        UserDetails admin = User.builder()
+//                .username("admin")
+//                .password(passwordEncoder().encode("admin"))
+//                .roles("ADMIN")
+//                .build();
+//
+//        return new InMemoryUserDetailsManager(manoj, admin);
+//    }
 
     @Bean
     public static PasswordEncoder passwordEncoder() {

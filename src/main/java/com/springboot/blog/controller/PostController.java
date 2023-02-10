@@ -40,14 +40,14 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PostDto> getPostById(@PathVariable(name = "id") long id) {
+    public ResponseEntity<PostDto> getPostById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(postService.getPostById(id));
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDto,
-                                              @PathVariable(name = "id") long id) {
+                                              @PathVariable(name = "id") Long id) {
         PostDto postResponse = postService.updatePost(postDto, id);
 
         return new ResponseEntity<>(postResponse, HttpStatus.OK);
@@ -55,7 +55,7 @@ public class PostController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<String> deletePost(@PathVariable(name = "id") long id) {
+    public ResponseEntity<String> deletePost(@PathVariable(name = "id") Long id) {
         postService.deletePostById(id);
         return new ResponseEntity<>("Post entity deleted successfully", HttpStatus.OK);
     }

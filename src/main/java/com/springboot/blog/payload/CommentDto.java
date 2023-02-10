@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 public class CommentDto {
-    private long id;
+    private Long id;
     @NotEmpty(message = "name shouldnt be empty")
     private String name;
     @NotEmpty(message = "email shouldnt be empty")

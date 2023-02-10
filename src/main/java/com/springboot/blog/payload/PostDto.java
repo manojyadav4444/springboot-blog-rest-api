@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Data
 public class PostDto {
-    private long id;
+    private Long id;
     @NotEmpty
     @Size(min = 2, message = "Post title should be of size at least 2")
     private String title;
